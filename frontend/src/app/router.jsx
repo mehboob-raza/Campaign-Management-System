@@ -1,10 +1,23 @@
-import { Toaster } from "react-hot-toast";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import DashboardPage from "../pages/DashboardPage";
+import LoginPage from "../pages/LoginPage";
+import CreativeBriefPage from "../pages/CreativeBriefPage";
 
-export default function Providers({ children }) {
+const isAuth = () => !!localStorage.getItem("token");
+
+export default function Router() {
   return (
-    <>
-      <Toaster position="top-right" />
-      {children}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/"
+          element={isAuth() ? <DashboardPage /> : <Navigate to="/login" />}
+        />
+
+        <Route path="/brief" element={<CreativeBriefPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

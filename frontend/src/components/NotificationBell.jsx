@@ -1,16 +1,16 @@
-import React from 'react';
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
-const NotificationBell = () => {
-  return (
-    <div className="relative">
-      <button className="relative">
-        🔔
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-          3
-        </span>
-      </button>
-    </div>
-  );
-};
+const socket = io("http://localhost:5000");
 
-export default NotificationBell;
+export default function NotificationBell() {
+  const [alerts, setAlerts] = useState([]);
+
+  useEffect(() => {
+    socket.on("alert", (data) => {
+      setAlerts((prev) => [data, ...prev]);
+    });
+  }, []);
+
+  return <div>🔔 {alerts.length}</div>;
+}

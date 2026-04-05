@@ -1,54 +1,74 @@
-import React, { useState } from 'react';
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
+import { useState } from "react";
+import client from "../../api/client";
 
-const CampaignModal = ({ isOpen, onClose, onSave }) => {
-  const [formData, setFormData] = useState({ name: '', budget: '' });
+export default function CampaignModal({ onClose, onSuccess }) {
+  const [name, setName] = useState("");
+  const [clientName, setClientName] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const submit = async () => {
+    await client.post("/campaigns", {
+      name,
+      client: clientName,
+      status: "active",
+      budget: 1000,
+      spend: 0,
+      impressions: 0,
+      clicks: 0,
+      conversions: 0,
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(formData);
+    onSuccess();
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg w-96">
-        <h2 className="text-xl mb-4">Create Campaign</h2>
-        <form onSubmit={handleSubmit}>
-          <Input
-            name="name"
+    // FULL SCREEN OVERLAY (GRAY BACKGROUND)
+    <div className="fixed inset-0 bg-gray-900/60 flex items-center justify-center z-50">
+
+      {/* DIALOG BOX */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg p-8">
+
+        {/* TITLE */}
+        <h2 className="text-xl font-semibold text-center mb-6">
+          Create Campaign
+        </h2>
+
+        {/* FORM CONTENT (CENTERED COLUMN) */}
+        <div className="flex flex-col gap-5">
+
+          <input
             placeholder="Campaign Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
+            className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            onChange={(e) => setName(e.target.value)}
           />
-          <Input
-            name="budget"
-            placeholder="Budget"
-            type="number"
-            value={formData.budget}
-            onChange={handleChange}
-            required
+
+          <input
+            placeholder="Client Name"
+            className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            onChange={(e) => setClientName(e.target.value)}
           />
-          <div className="flex justify-end mt-4">
-            <Button type="button" onClick={onClose} variant="secondary">
-              Cancel
-            </Button>
-            <Button type="submit" className="ml-2">
-              Save
-            </Button>
-          </div>
-        </form>
+
+        </div>
+
+        {/* ACTION BUTTONS */}
+        <div className="flex justify-center gap-4 mt-8">
+
+          <button
+            onClick={onClose}
+            className="px-5 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={submit}
+            className="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700"
+          >
+            Create
+          </button>
+
+        </div>
       </div>
     </div>
   );
-};
-
-export default CampaignModal;
+}
