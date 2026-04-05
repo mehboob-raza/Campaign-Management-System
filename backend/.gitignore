@@ -1,0 +1,85 @@
+# ----------------------
+# Node.js
+# ----------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ----------------------
+# Environment variables
+# ----------------------
+.env
+.env.*
+!.env.example
+
+# ----------------------
+# Build / Dist
+# ----------------------
+dist/
+build/
+.vite/
+
+# ----------------------
+# React / Vite
+# ----------------------
+node_modules/.vite
+*.local
+
+# ----------------------
+# Coverage
+# ----------------------
+coverage/
+
+# ----------------------
+# OS files
+# ----------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------
+# IDE / Editors
+# ----------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----------------------
+# TypeScript
+# ----------------------
+*.tsbuildinfo
+
+# ----------------------
+# Database
+# ----------------------
+*.sqlite
+*.db
+
+# ----------------------
+# Misc
+# ----------------------
+.cache/
+.tmp/
+temp/
+
+# ----------------------
+# Docker (if used)
+# ----------------------
+docker-compose.override.yml
+
+# ----------------------
+# Optional uploads
+# ----------------------
+uploads/
